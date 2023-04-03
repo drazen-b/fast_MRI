@@ -32,6 +32,8 @@ Podatci su predviđeni kako bi omogućili dva različita zadatka:
 
 Za svaki izazov objavljeni su službeni podskupovi za trening, validaciju, test i izazova. Svi podatci su anonimizirani. Sveukupno je 1594 neprocesiranih snimaka k-prostora koljena dobivenih s više zavojnica, 6970 slika k-prostora mozga dobivenih s više zavojnica. Podatci za izazov rekonstrukcije slika uzorkovanih jednom zavojnicom dobiveni su emulacijom podataka iz k-prostora slika dobivenih metodom s više zavojnica. 10000 DICOM slika mozga i koljena dobivenih MRI skenom.
 
+
+**Spomenuti ground truth**
 **(Ubaciti sliku-tablicu s količinom podataka)**
 
 U ovom radu se fokusiramo na dataset sa slikama mozga metodom više zavojnica. Prethodno navedenih 6970 MRI slika su dobivene korištenjem 11 magneta na 5 kliničkih lokacija. Kod uporabe ovog skupa podataka vrlo brzo dolazimo do problema. Naime, set za treniranje je veličine ~1.2 TB, set za validaciju je ~500GB, a set za testiranje je ~100GB. DICOM podatci se ne koriste jer ne pružaju neprocesirani k-prostor.
@@ -40,4 +42,15 @@ U ovom radu se fokusiramo na dataset sa slikama mozga metodom više zavojnica. P
 
 ## fastMRI
 
-Repozitorij javno dostupne i open-source fastMRI biblioteke dostupan je na GitHub-u. Biblioteka je pisana za programski jezik Python. Sadrži CS, Dino, Unet i VarNet modele za rekonstrukciju, njihov kod, te upute za uporabu.
+Uz dataset, fastMRI također pruža open-source set alata za rad s podatcima iz dataseta i implementaciju modela dubokog učenja za rekonstrukciju slika. Oni sadrže Python biblioteke za učitavanje podataka, predprocesiranje i evaluaciju podataka, uz prije trenirane modele za rekonstrukciju. Prije trenirani modeli koji se nalaze u biblioteci su CS, Dino, Unet i Varnet modeli, uz njih sadrži i njihov kod. 
+
+
+### Modeli
+
+#### Unet
+
+#### VarNet
+
+#### Dino
+
+
