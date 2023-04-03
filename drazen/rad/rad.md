@@ -1,3 +1,14 @@
+```
+Zadatak:
+Istražiti i opisati način dobivanja dinamičkih MRI slika te problematiku
+rekonstrukcije MRI slika. Istražiti i opisati postupak i važnost rekonstrukcije
+MRI medicinskih slika u kliničkoj praksi te dati kratak pregled prethodnih
+istraživanja. Opisati fastMRI biblioteku za rekonstrukciju medicinskih slika.
+Odabrati metodu implementiranu unutar fastMRI biblioteke za rekonstrukciju
+MRI medicinskih slika, opisati je te prilagoditi za zadatak rekonstrukcije MRI
+slika mozga. Prikazati i komentirati dobivene rezultate.
+```
+
 # Rekonstrukcija slika magnetske rezonance putem fastMRI biblioteke
 
 ## Uvod
@@ -48,6 +59,19 @@ Uz dataset, fastMRI također pruža open-source set alata za rad s podatcima iz 
 ### Modeli
 
 #### Unet
+
+Kod klasifikacijskih zadataka u konvolucijskim mrežama na izlazu se očekuje jedna klasa slike. Ukoliko želimo postići lokalizaciju potrebno je svakom pikselu slike dodijeliti klasu.
+
+**((UBACITI SLIKU LOKALIZACIJE))**
+
+U-Net model koja se nalazi u fastMRI biblioteci je namijenjena za rekonstrukciju slika uzorkovanih s jednom zavojnicom. Za uporabu nad slikama uzorkovanih s više zavojnica potrebno izvršiti `zero-fill` metoda nad slikom svake zavojnice. `Zero-fill` metodom na mjesto svih neizmjerenih podataka u k-prostoru stavljamo nule, a zatim primjenjujemo Inverznu Fourierovu Transformaciju. Rezultat se centrirano reže kako bi se uklonilo prelijevanje očitanja i faze. Nakon primjene `Zero-fill` metode, slike zavojnica se povezuju koristeći algoritam korijena zbroja kvadrata. Model je treniran na smanjenje gubitaka srednje apsolutne greške. 
+
+Model sadrži dva duboka konvolucijska mrežna puta. Prvi dio je dio sažimanja, a zatim ide dio širenja. Put sažimanja se sastoji od blokova s dvije 3x3 konvolucije, svaku konvoluciju prati normalizacija po instancama i ReLU funkcija. Blokovi se izmjenjuju down-sampling operacijama koje se sastoje od slojeva maksimalnog uzorkovanja (max-pooling) s korakom 2. Time prepolovljuju svaku prostornu dimenziju. Na putu povećavanja razlučivosti se nalaze blokovi slične arhitekture kao na putu sažimanja, a blokovi se izmjenjuju operacijama povećavanja rezolucije prethodnog bloka. Put povećavanja razlučivosti je povezan s putem sažimanja `skip` vezama. Put sažimanja omogućava hvatanje konteksta i otkriva što je na slici, dok put širenja otkriva gdje se to nalazi na slici. Kako bi lokalizacija bolje funkcionirala, značajke visoke rezolucije iz puta sažimanja se povezuju i kombiniraju s outputom puta širenja. S tom informacijom se dobiva precizniji izlaz iz bloka. Na kraju puta širenja nalaze se 1x1 konvolucije kako bi se smanjio broj kanala na jedan bez promjene prostorne reozolucije. Kako bi se predvidjeli rubni pikseli ulazne slike, primjenjuje se tehnika zrcaljenja za popunjavanje nedostajućih podataka.
+
+Istrenirani model koji fastMRI biblioteka pruža je treniran na 973 slike iz trening seta uporabom RMSProp algoritma. Prvih 40 epoha stopa učenja je 0.001, a zatim se množi s 0.1 i trenira se još 10 epoha. 
+
+**NAPISATI ONO S IZLAZA SLIKE**
+
 
 #### VarNet
 
